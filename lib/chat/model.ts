@@ -46,7 +46,7 @@ export async function addUserMessage(threadId: string, content: string) {
 
 export async function runAssistant(threadId: string, assistantId: string, handleResponse: (content: string) => void) {
   let responseBuffer = ""; // Buffer to accumulate responses
-  let debounceTimer; // Timer to finalize the response
+  let debounceTimer: any; // Timer to finalize the response
   console.log('Starting assistant with streaming in thread:', threadId);
   // Starting the run with streaming
   const run = openai.beta.threads.runs.stream(threadId, {
@@ -72,10 +72,10 @@ export async function runAssistant(threadId: string, assistantId: string, handle
     })
     .on('toolCallDelta', (toolCallDelta, snapshot) => {
       if (toolCallDelta.type === 'code_interpreter') {
-        if (toolCallDelta.code_interpreter.input) {
+        if (toolCallDelta?.code_interpreter?.input) {
           process.stdout.write(toolCallDelta.code_interpreter.input);
         }
-        if (toolCallDelta.code_interpreter.outputs) {
+        if (toolCallDelta?.code_interpreter?.outputs) {
           process.stdout.write("\noutput >\n");
           toolCallDelta.code_interpreter.outputs.forEach(output => {
             if (output.type === "logs") {
