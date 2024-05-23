@@ -1,3 +1,5 @@
+## introduction
+
 This is an AI chatbot app template built with 
 [Next.js](https://nextjs.org), the [Vercel AI SDK](https://sdk.vercel.ai), and [Vercel KV](https://vercel.com/storage/kv). Updated to use [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview) to talk like a penguin 🐧 .
 
@@ -5,6 +7,17 @@ It uses
 React Server Components
  to combine text with generative UI as output of the LLM.
 
+## Project Report
+
+I had the decision of either manually defining an assistant, or using an assistant id through https://platform.openai.com/assistants/
+I choose to manually define Mr.Penguin, an assistant that talks with 'noot noot', so the user can be certain that they are interacting with an assistant at a glance, rather than the ordinary non-custom / Assistant based GPT.
+This has the impact of making the code more open sourced and modular, with the downside of losing the in browser ui for assistants.
+
+Split main driving file, 'actions.tsx' orginally over 589 lines, into two more streamlined files;
+'actions.tsx', now 160 lines and 'model.ts' and now 91 lines. This allowed for more readable code and reduction of uneeded stock related features. 
+model.ts is the file responsible for implenting the OpenAi Asisstants API. This also allows model.ts to use it's own set of imports and thusly the beta version of openai, which requires HTTP header: 'OpenAI-Beta: assistants=v2'; but which is not included in the namespace of the starter repo's A.I SDK.
+
+I wanted to add tests with Jest, but was not able to get to this step; model.ts does however contain some helpful tests which are commented out.
 
 ## Login and add your API keys to KV Database Instance to use the app!
 
