@@ -12,15 +12,20 @@ export function EmptyScreen() {
           Welcome to Next.js AI Chatbot!
         </h1>
         <p className="leading-normal text-muted-foreground">
-          This is an open source AI chatbot app template built with{' '}
+          This is an AI chatbot app template built with{' '}
           <ExternalLink href="https://nextjs.org">Next.js</ExternalLink>, the{' '}
           <ExternalLink href="https://sdk.vercel.ai">
             Vercel AI SDK
           </ExternalLink>
           , and{' '}
           <ExternalLink href="https://vercel.com/storage/kv">
-            Vercel KV
+            Vercel KV.
           </ExternalLink>
+           Updated to use
+          <ExternalLink href="https://platform.openai.com/docs/assistants/overview">
+            OpenAI Assistants API
+          </ExternalLink>
+          to talk like a penguin 🐧
           .
         </p>
         <p className="leading-normal text-muted-foreground">
@@ -28,9 +33,7 @@ export function EmptyScreen() {
           <ExternalLink href="https://vercel.com/blog/ai-sdk-3-generative-ui">
             React Server Components
           </ExternalLink>{' '}
-          to combine text with generative UI as output of the LLM. The UI state
-          is synced through the SDK so the model is aware of your interactions
-          as they happen.
+          to combine text with generative UI as output of the LLM.
         </p>
       </div>
     </div>
