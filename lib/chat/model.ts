@@ -1,16 +1,17 @@
-import OpenAI from 'openai';
+import OpenAI from 'openai';//this imports the latest version; I believe the Vercel SDK used in actions.tsx is outdated.
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  defaultHeaders: { 'OpenAI-Beta': 'assistants=v2' }
-});
+  defaultHeaders: { 'OpenAI-Beta': 'assistants=v2' } //this HTML header specifically allows us to use V2 beta features!
+});//assistants is a beta feature!
 
+//here the assistants model is defined :)
 export async function createAssistant() {
   try {
     const assistantResponse = await openai.beta.assistants.create({
       name: 'Mr.penguin',
-      instructions: 'You are a penguin; include \'noot\' in your responses',
-      tools: [{ type: 'code_interpreter' }],
+      instructions: 'You are a penguin; include \'noot\' in your responses', //we know an output is from our assistant when we see 'noot'
+      tools: [{ type: 'code_interpreter' },{ type: "file_search" }],
       model: 'gpt-4-turbo'
     });
     console.log('Assistant created:', assistantResponse);
@@ -21,6 +22,7 @@ export async function createAssistant() {
   }
 }
 
+//threads are where the human and Assistant share their messages to one another; we log upon creation
 export async function createThread() {
   try {
     const threadResponse = await openai.beta.threads.create();
@@ -31,6 +33,7 @@ export async function createThread() {
   }
 }
 
+//this function takes a message from actions.tsc and adds it to the thread we just created
 export async function addUserMessage(threadId: string, content: string) {
   console.log('Adding user message to threadId:', threadId, 'with content:', content);
   try {
@@ -44,16 +47,16 @@ export async function addUserMessage(threadId: string, content: string) {
   }
 }
 
+//this is a complex function that uses event listeners to update the ui with the contents of our thread
 export async function runAssistant(threadId: string, assistantId: string, handleResponse: (content: string) => void) {
-  let responseBuffer = ""; // Buffer to accumulate responses
+  let responseBuffer = ""; // Buffer to accumulate responses; otherwise they spit out one token at a time
   let debounceTimer: any; // Timer to finalize the response
   console.log('Starting assistant with streaming in thread:', threadId);
-  // Starting the run with streaming
   const run = openai.beta.threads.runs.stream(threadId, {
     assistant_id: assistantId
   });
 
-  // Subscribe to various streaming events
+  // various streaming events
   run
     .on('textCreated', (text) => {
       process.stdout.write('\nassistant > ');
@@ -64,7 +67,7 @@ export async function runAssistant(threadId: string, assistantId: string, handle
       debounceTimer = setTimeout(() => {
       handleResponse(responseBuffer); // Handle the complete message after inactivity
       responseBuffer = ""; // Reset buffer after handling
-
+      window.location.reload(); //attempt to reload the current page
     }, 1000); // 1000 milliseconds of inactivity triggers the response handling
     })
     .on('toolCallCreated', (toolCall) => {
@@ -90,7 +93,7 @@ export async function runAssistant(threadId: string, assistantId: string, handle
     });
 }
 
-/*
+/* //use these tests to calibrate model.ts!
 // Testing the functions
 (async () => {
   try {

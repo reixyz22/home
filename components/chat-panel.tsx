@@ -36,9 +36,9 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'How do I use an',
-      subheading: 'SDK',
-      message: `How do I use an SDK?`
+      heading: 'Describe the history',
+      subheading: 'of A.I',
+      message: `Describe the history of A.I`
     },
     {
       heading: 'Write a song about',
@@ -52,8 +52,8 @@ export function ChatPanel({
     },
     {
       heading: 'What is the perimeter',
-      subheading: `of Illinois?`,
-      message: `What is the perimeter of Illinois?`
+      subheading: `of California`,
+      message: `What is the perimeter of California?`
     }
   ]
 
