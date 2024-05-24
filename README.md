@@ -32,7 +32,7 @@ I added inline comments to actions.tsx and model, these improve readability of a
 
 Impact: Enables the use of the latest AI features.
 
-**Future features and considerations:
+## Future features and considerations:
 
 I started on the function calling assignment, however; this requires a complicated event listener system in the assistant’s run and I wasn’t able to configure this correctly, due to unfamiliarity and time constraints. 
 
