@@ -3,22 +3,48 @@
 This is an AI chatbot app template built with 
 [Next.js](https://nextjs.org), the [Vercel AI SDK](https://sdk.vercel.ai), and [Vercel KV](https://vercel.com/storage/kv). Updated to use [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview) to talk like a penguin 🐧 .
 
-It uses 
-React Server Components
- to combine text with generative UI as output of the LLM.
+[use the app here](https://home-liart-chi.vercel.app/)
 
-## Project Report
 
-I had the decision of either manually defining an assistant, or using an assistant id through https://platform.openai.com/assistants/.
+## Project Report Primary changes are in /lib/chat/actions.tsx
 
-I choose to manually define Mr.Penguin, an assistant that talks with 'noot noot', in his respones, so the user can be certain that they are interacting with an assistant at a glance, rather than the ordinary non-custom / Assistant based GPT.
-This has the impact of making the code more open sourced and modular, with the downside of losing the in browser ui for assistants.
+Note:
+Unfortunately there is a bug, which requires a page refresh; to see the assistants response. Please wait roughly 5 seconds and then refresh the page after chatting.
 
-I decided to split the primary driving file, 'actions.tsx' orginally over 589 lines, into two more streamlined files;
-'actions.tsx', now 160 lines and 'model.ts' and now 91 lines. This allowed for more readable code and reduction of uneeded stock related features. 
-model.ts is the file responsible for implenting the OpenAi Asisstants API. This also allows model.ts to use it's own set of imports and thusly the beta version of openai, which requires HTTP header: 'OpenAI-Beta: assistants=v2'; but which is not included in the namespace of the starter repo's A.I SDK.
+I believe this is due to React's server vs client logic; which I’ve started to learn more about while working on this project, but not completely. 
 
-I wanted to add tests with Jest, but was not able to get to this step; model.ts does however contain some helpful tests which are commented out.
+Decisions:
+
+I had the decision of either manually defining an assistant or using an assistant ID through https://platform.openai.com/assistants/. 
+
+I chose to manually define Mr. Penguin, an assistant that talks with 'noot noot', so the user can be certain that they are interacting with an assistant at a glance, rather than the ordinary non-custom/Assistant based GPT. 
+
+This has the impact of making the code more open-sourced and modular, with the downside of losing the in-browser UI for assistants.
+
+I split the main driving file, 'lib/chat/actions.tsx', originally 589 lines, into two more streamlined files; 'actions.tsx', now 145 lines, and 'model.ts', now 94 lines. This allowed for more readable code and the reduction of unneeded stock-related features. 
+
+Impact: Enhances code readability.
+
+Changes:
+I added inline comments to actions.tsx and model, these improve readability of actions.tsx considerably. I encourage the reader to compare with the original actions.tsx.
+
+‘lib/chat/model.ts’ is the new file responsible for implementing the OpenAI Assistants API. This also allows model.ts to use its own set of imports and thus the beta version of OpenAi, which requires the HTTP header: 'OpenAI-Beta: assistants=v2'; but is not included in the namespace of the starter repo's SDK.
+
+Impact: Enables the use of the latest AI features.
+
+**Future features and considerations:
+
+I started on the function calling assignment, however; this requires a complicated event listener system in the assistant’s run and I wasn’t able to configure this correctly, due to unfamiliarity and time constraints. 
+
+I also started, but have not yet gotten file uploads to work, I started on this task by carefully following the File Search Quick Start guide
+But I seem to have gotten blocked by this function openai.beta.vectorStores.fileBatches.uploadAndPoll()
+
+I wanted to add tests with Jest but was not able to get to this stage; ‘model.ts’ does, however, contain some helpful tests which are commented out.
+
+**Summary:
+This is an AI chatbot app template built with Next.js, the Vercel AI SDK, and Vercel KV. Updated to use OpenAI Assistants API to talk like a penguin 🐧 .
+
+It uses React Server Components to combine text with generative UI as output of the LLM.
 
 ## Login and add your API keys to KV Database Instance to use the app!
 
