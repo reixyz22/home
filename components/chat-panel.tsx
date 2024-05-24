@@ -36,9 +36,9 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'Describe the history',
-      subheading: 'of A.I',
-      message: `Describe the history of A.I`
+      heading: '🐧Describe the history',
+      subheading: 'of GNU 🐧',
+      message: `Describe the history of GNU linux, why you love it; since you're a penguin.`
     },
     {
       heading: 'Write a song about',
