@@ -41,7 +41,7 @@ I started on the function calling assignment, however; this requires a complicat
 I also started, but have not yet gotten file uploads to work, I started on this task by carefully following the [File Search Quick Start guide](https://platform.openai.com/docs/assistants/tools/file-search/quickstart)
 But I seem to have gotten blocked by this function openai.beta.vectorStores.fileBatches.uploadAndPoll()
 
-I wanted to add tests with Jest but was not able to get to this stage; ‘model.ts’ does, however, contain some helpful tests which are commented out.
+I wanted to add tests with Jest but was not able to implement this service; ‘model.ts’ does, however, contain some helpful tests which are commented out.
 
 ## Login and add your API keys to KV Database to use the app!
 
