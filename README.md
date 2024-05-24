@@ -41,11 +41,6 @@ But I seem to have gotten blocked by this function openai.beta.vectorStores.file
 
 I wanted to add tests with Jest but was not able to get to this stage; ‘model.ts’ does, however, contain some helpful tests which are commented out.
 
-**Summary:
-This is an AI chatbot app template built with Next.js, the Vercel AI SDK, and Vercel KV. Updated to use OpenAI Assistants API to talk like a penguin 🐧 .
-
-It uses React Server Components to combine text with generative UI as output of the LLM.
-
 ## Login and add your API keys to KV Database Instance to use the app!
 
 Follow the documentation outlined in the [quick start guide](https://vercel.com/docs/storage/vercel-kv/quickstart#create-a-kv-database) provided by Vercel. This guide will assist you in creating and configuring your KV database instance on Vercel, enabling you to interact with it.
