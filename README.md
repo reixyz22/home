@@ -3,15 +3,17 @@
 This is an AI chatbot app template built with 
 [Next.js](https://nextjs.org), the [Vercel AI SDK](https://sdk.vercel.ai), and [Vercel KV](https://vercel.com/storage/kv). Updated to use [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview) to talk like a penguin 🐧 .
 
-[use the app here](https://home-liart-chi.vercel.app/)
+[use the app here](https://home-liart-chi.vercel.app/) **Primary changes are in /lib/chat/actions.tsx**
 
 
-## Project Report Primary changes are in /lib/chat/actions.tsx
+### Project Report 
 
 Note:
 Unfortunately there is a bug, which requires a page refresh; to see the assistants response. Please wait roughly 5 seconds and then refresh the page after chatting.
 
 I believe this is due to React's server vs client logic; which I’ve started to learn more about while working on this project, but not completely. 
+
+
 
 Decisions:
 
@@ -41,7 +43,7 @@ But I seem to have gotten blocked by this function openai.beta.vectorStores.file
 
 I wanted to add tests with Jest but was not able to get to this stage; ‘model.ts’ does, however, contain some helpful tests which are commented out.
 
-## Login and add your API keys to KV Database Instance to use the app!
+## Login and add your API keys to KV Database to use the app!
 
 Follow the documentation outlined in the [quick start guide](https://vercel.com/docs/storage/vercel-kv/quickstart#create-a-kv-database) provided by Vercel. This guide will assist you in creating and configuring your KV database instance on Vercel, enabling you to interact with it.
 
@@ -50,7 +52,7 @@ Follow the documentation outlined in the [quick start guide](https://vercel.com/
 
 You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
 
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various OpenAI and authentication provider accounts.
+> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various OpenAI and authentication provider accounts. TO avoid this, use gitignore
 
 1. Install Vercel CLI: `npm i -g vercel`
 2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
