@@ -38,7 +38,7 @@ Impact: Enables the use of the latest AI features.
 
 I started on the function calling assignment, however; this requires a complicated event listener system in the assistant’s run and I wasn’t able to configure this correctly, due to unfamiliarity and time constraints. 
 
-I also started, but have not yet gotten file uploads to work, I started on this task by carefully following the File Search Quick Start guide
+I also started, but have not yet gotten file uploads to work, I started on this task by carefully following the [File Search Quick Start guide](https://platform.openai.com/docs/assistants/tools/file-search/quickstart)
 But I seem to have gotten blocked by this function openai.beta.vectorStores.fileBatches.uploadAndPoll()
 
 I wanted to add tests with Jest but was not able to get to this stage; ‘model.ts’ does, however, contain some helpful tests which are commented out.
