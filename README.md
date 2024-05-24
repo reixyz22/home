@@ -3,7 +3,7 @@
 This is an AI chatbot app template built with 
 [Next.js](https://nextjs.org), the [Vercel AI SDK](https://sdk.vercel.ai), and [Vercel KV](https://vercel.com/storage/kv). Updated to use [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview) to talk like a penguin 🐧 .
 
-[use the app here](https://home-liart-chi.vercel.app/) **Primary changes are in /lib/chat/actions.tsx**
+[use the app here](https://home-liart-chi.vercel.app/) **Primary changes are in /lib/chat/actions.tsx, model.ts **
 
 
 ### Project Report 
