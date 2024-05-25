@@ -21,7 +21,11 @@ export function EmptyScreen() {
           <ExternalLink href="https://vercel.com/storage/kv">
             Vercel KV.
           </ExternalLink>
-           Updated to use
+            Forked from 
+          <ExternalLink href="https://github.com/vercel/ai-chatbot">
+            vercel ai-chatbot
+          </ExternalLink>
+            Updated to use
           <ExternalLink href="https://platform.openai.com/docs/assistants/overview">
             OpenAI Assistants API
           </ExternalLink>
