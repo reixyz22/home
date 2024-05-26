@@ -46,9 +46,9 @@ export function ChatPanel({
       message: 'Write a song about friendship.'
     },
     {
-      heading: 'Simulate a moon visit',
-      subheading: 'using Python code',
-      message: `Simulate a moon visit using Python code'`
+      heading: 'What are the contents,',
+      subheading: ' of my attachment?',
+      message: `Whats the key in secret.txt?`
     },
     {
       heading: 'What is the perimeter',
