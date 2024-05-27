@@ -1,39 +1,49 @@
-import { createAI, getMutableAIState, getAIState } from 'ai/rsc';  // Import AI state management functions
-import { nanoid } from '@/lib/utils';  // Import utility for generating unique IDs
-import { saveChat } from '@/app/actions';  // Import function to save chat sessions
-import { UserMessage, BotMessage, BotCard } from '@/components/stocks/message';  // Import UI components for messages
-import { Chat, Message } from '@/lib/types';  // Import types for chat and messages
-import {createAssistant, createThread, addUserMessage, runAssistant, addFile} from '@/lib/chat/model';  // Import chatbot functionalities
-import { auth } from "@/auth";  // Import authentication module
+import 'server-only';
 
-// Function to handle user message submission
+import {
+  createAI,
+  getMutableAIState,
+  getAIState,
+} from 'ai/rsc';
+import { nanoid } from '@/lib/utils';
+import { saveChat } from '@/app/actions';
+import { SpinnerMessage, UserMessage, BotMessage, BotCard } from '@/components/stocks/message';
+import { Chat, Message } from '@/lib/types';
+import { createAssistant, createThread, addUserMessage, runAssistant } from '@/lib/chat/model';
+import { auth } from "@/auth";
+
+
+// Handle user message submission
 async function submitUserMessage(content: string) {
-  'use server';  // Direct this block to run on the server
+  'use server';
 
-  const aiState = getMutableAIState<typeof AI>();  // Get a mutable state for the AI
+  const aiState = getMutableAIState<typeof AI>();
 
-  // Update AI state with the new user message
   aiState.update({
     ...aiState.get(),
     messages: [
       ...aiState.get().messages,
       {
-        id: nanoid(),  // Generate a unique ID for the message
+        id: nanoid(),
         role: 'user',
         content,
       },
     ],
   });
 
-  const assistant = await createAssistant();  // Create an assistant instance
-  const fileDataX = await addFile(assistant.id)
-  const thread = await createThread();  // Create a conversation thread
-  await addUserMessage(fileDataX.id, thread.id, content);  // Add the user message to the thread
+  // Create an assistant
+  const assistant = await createAssistant();
 
-  // Handler for assistant's responses
+  // Create a thread
+  const thread = await createThread();
+
+  // Add a user message to the thread
+  await addUserMessage(thread.id, content);
+
+  // Define handleResponse here and pass it to runAssistant
   const handleResponse = (assistantContent: string) => {
     const assistantMessage: Message = {
-      id: nanoid(),  // Generate a unique ID for the message
+      id: nanoid(),
       role: 'assistant',
       content: assistantContent,
     };
@@ -46,19 +56,19 @@ async function submitUserMessage(content: string) {
     });
   };
 
-  // Run the assistant on the thread and handle responses
+  // Run the assistant on the thread with the handleResponse callback
   await runAssistant(thread.id, assistant.id, handleResponse);
 
-  // Fetch the latest AI state to obtain the assistant's response
+  // Fetch the latest state to get the assistant's response
   const updatedState = aiState.get();
   const assistantMessageContent = updatedState.messages.find(msg => msg.role === 'assistant')?.content ?? '';
+
   return {
     id: nanoid(),
     display: assistantMessageContent,
   };
 }
 
-// Type definitions for AI state and UI state
 export type AIState = {
   chatId: string;
   messages: Message[];
@@ -69,7 +79,6 @@ export type UIState = {
   display: React.ReactNode;
 }[];
 
-// Configuration for the AI model
 export const AI = createAI<AIState, UIState>({
   actions: {
     submitUserMessage,
@@ -77,15 +86,15 @@ export const AI = createAI<AIState, UIState>({
   initialUIState: [],
   initialAIState: { chatId: nanoid(), messages: [] },
   onGetUIState: async () => {
-    'use server';  // Direct this block to run on the server
+    'use server';
 
-    const session = await auth();  // Authenticate the session
+    const session = await auth();
 
     if (session && session.user) {
-      const aiState = getAIState();  // Get the current AI state
+      const aiState = getAIState();
 
       if (aiState) {
-        const uiState = getUIStateFromAIState(aiState);  // Convert AI state to UI state
+        const uiState = getUIStateFromAIState(aiState);
         return uiState;
       }
     } else {
@@ -93,20 +102,21 @@ export const AI = createAI<AIState, UIState>({
     }
   },
   onSetAIState: async ({ state }) => {
-    'use server';  // Direct this block to run on the server
+    'use server';
 
-    const session = await auth();  // Authenticate the session
+    const session = await auth();
 
     if (session && session.user) {
       const { chatId, messages } = state;
-      const createdAt = new Date();  // Get current date and time
-      const userId = session.user.id as string;  // Get user ID from the session
-      const path = `/chat/${chatId}`;  // Define path for the chat
+
+      const createdAt = new Date();
+      const userId = session.user.id as string;
+      const path = `/chat/${chatId}`;
 
       const firstMessageContent = messages[0].content as string;
-      const title = firstMessageContent.substring(0, 100);  // Extract title from the first message
+      const title = firstMessageContent.substring(0, 100);
 
-      const chat: Chat = {  // Construct chat object to save
+      const chat: Chat = {
         id: chatId,
         title,
         userId,
@@ -115,18 +125,17 @@ export const AI = createAI<AIState, UIState>({
         path,
       };
 
-      await saveChat(chat);  // Save the chat to a persistent storage
+      await saveChat(chat);
     } else {
       return;
     }
   },
 });
 
-// Function to convert AI state to UI state
 export const getUIStateFromAIState = (aiState: Chat) => {
   return aiState.messages
-    .filter((message) => message.role !== 'system')  // Filter out system messages
-    .map((message, index) => ({  // Map messages to UI components
+    .filter((message) => message.role !== 'system')
+    .map((message, index) => ({
       id: `${aiState.chatId}-${index}`,
       display:
         message.role === 'tool' ? (
@@ -145,3 +154,60 @@ export const getUIStateFromAIState = (aiState: Chat) => {
         ) : null,
     }));
 };
+
+// New React component to handle the UI
+const ChatComponent = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const handleSendMessage = async (content: string) => {
+    const newMessage: Message = {
+      id: nanoid(),
+      role: 'user',
+      content,
+    };
+
+    setMessages(prev => [...prev, newMessage]);
+
+    const assistant = await createAssistant();
+    const thread = await createThread();
+    await addUserMessage(thread.id, content);
+
+    // Define handleResponse here and pass it to runAssistant
+const [messages, setMessages] = useState<Message[]>([]);
+
+const handleResponse = (assistantContent: string) => {
+  setMessages(prevMessages => [...prevMessages, {
+    id: nanoid(),
+    role: 'assistant',
+    content: assistantContent,
+  }]);
+};
+
+useEffect(() => {
+  const fetchData = async () => {
+    const response = await fetch(`/chat/${chatId}`);
+    const data = await response.json();
+    setMessages(data.messages);
+  };
+
+  fetchData();
+}, []);  // Dependency array can be empty if you only want to fetch on component mount
+
+
+    // Pass handleResponse to runAssistant
+    await runAssistant(thread.id, assistant.id, handleResponse);
+  };
+
+  return (
+    <div>
+      {messages.map((msg) => (
+        msg.role === 'user' ? <UserMessage key={msg.id}>{msg.content as React.ReactNode}</UserMessage> : <BotMessage key={msg.id} content={msg.content} />
+      ))}
+      <input type="text" onKeyDown={(e) => {
+        if (e.key === 'Enter') handleSendMessage(e.currentTarget.value);
+      }} />
+    </div>
+  );
+};
+
+export default ChatComponent;
