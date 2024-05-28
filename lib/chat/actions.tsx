@@ -4,7 +4,7 @@ import { saveChat } from '@/app/actions';  // Import function to save chat sessi
 import { UserMessage, BotMessage, BotCard } from '@/components/stocks/message';  // Import UI components for messages
 import { Chat, Message } from '@/lib/types';  // Import types for chat and messages
 import { createAssistant, createThread, addUserMessage, runAssistant } from '@/lib/chat/model';  // Import chatbot functionalities
-import { auth } from "@/auth";  // Import authentication module
+import { auth } from "@/auth";  // Import authentication module.
 import React from "react";
 
 // Function to handle user message submission
