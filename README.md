@@ -50,7 +50,7 @@ I wanted to add tests with Jest but was not able to implement this service; ‘m
 
 Regarding the file attachments feature making it to production, there is some hope; there is the [Vercel Blob's system](https://vercel.com/docs/storage/vercel-blob/client-upload); which in one prototype testing, I did get to work.
 ![image](https://github.com/reixyz22/home/assets/66898056/45e03007-27bf-49e8-8b67-9a506991ce71)
-Unfortunately, at this time there are some issues getting OpenAI to read this Blob data, through to model.ts.
+Unfortunately, at this time there are some issues getting OpenAI to read this Blob data.
 
 ## Login and add your API keys to KV Database to use the app!
 
