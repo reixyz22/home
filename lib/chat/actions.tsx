@@ -3,9 +3,8 @@ import { nanoid } from '@/lib/utils';  // Import utility for generating unique I
 import { saveChat } from '@/app/actions';  // Import function to save chat sessions
 import { UserMessage, BotMessage, BotCard } from '@/components/stocks/message';  // Import UI components for messages
 import { Chat, Message } from '@/lib/types';  // Import types for chat and messages
-import { createAssistant, createThread, addUserMessage, runAssistant } from '@/lib/chat/model';  // Import chatbot functionalities
-import { auth } from "@/auth";  // Import authentication module.
-import React from "react";
+import {createAssistant, createThread, addUserMessage, runAssistant, addFile} from '@/lib/chat/model';  // Import chatbot functionalities
+import { auth } from "@/auth";  // Import authentication module
 
 // Function to handle user message submission
 async function submitUserMessage(content: string) {
@@ -27,9 +26,9 @@ async function submitUserMessage(content: string) {
   });
 
   const assistant = await createAssistant();  // Create an assistant instance
+  const fileDataX = await addFile(assistant.id)
   const thread = await createThread();  // Create a conversation thread
-
-  await addUserMessage(thread.id, content);  // Add the user message to the thread
+  await addUserMessage(fileDataX.id, thread.id, content);  // Add the user message to the thread
 
   // Handler for assistant's responses
   const handleResponse = (assistantContent: string) => {
